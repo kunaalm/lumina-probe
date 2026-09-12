@@ -1,0 +1,50 @@
+# luminance-probe configuration — copy to config.yaml and edit.
+# This file is intentionally generic: point it at any HTTP image source.
+# No values here are required to match this repo's author's homelab.
+
+poll:
+  interval_seconds: 300      # how often to poll and publish
+
+# Each source is an HTTP GET that returns a JPEG/PNG frame.
+sources:
+  - name: front_left
+    url: "http://192.168.20.20:5001/api/cam_frigate_front_left/latest.jpg"
+  - name: front_porch
+    url: "http://192.168.20.20:5001/api/cam_frigate_front_porch/latest.jpg"
+  - name: front_right
+    url: "http://192.168.20.20:5001/api/cam_frigate_front_right/latest.jpg"
+  - name: doorbell
+    url: "http://192.168.20.20:5001/api/cam_frigate_doorbell/latest.jpg"
+
+# How to combine per-source luminance into one reported value.
+#   per_source -> publish one sensor per source, each with its own value
+#   mean        -> one sensor, the arithmetic mean across sources
+#   median      -> one sensor, the median across sources
+#   min         -> one sensor, the dimmest source (good for "is it dark?")
+aggregate: mean
+
+mqtt:
+  host: 192.168.20.12
+  port: 1883
+  username: ""              # or unset
+  password: ""              # or set MQTT_PASSWORD env instead
+  topic: "homeassistant"    # MQTT discovery base topic
+
+sensor:
+  luminance:
+    name: "Outdoor Luminance"
+    object_id: "outdoor_luminance"     # becomes sensor.outdoor_luminance
+    unit_of_measurement: ""            # e.g. "lx" or leave blank for 0-255
+    device_class: "illuminance"
+  is_dark:                  # OPTIONAL: also publish a binary "is it dark?" sensor
+    name: "Is Dark Out"
+    object_id: "is_dark_out"
+    threshold: 30           # luminance below this (0-255) -> is_dark = ON
+
+# Optional: scale the 0-255 luminance to approximate lux.
+# Common rule of thumb is gain ~4; exact value depends on camera exposure.
+lux:
+  enabled: false
+  gain: 4.0
+
+log_level: INFO
