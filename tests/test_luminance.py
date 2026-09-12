@@ -1,8 +1,8 @@
 """Unit tests for luminance computation and config parsing."""
 from PIL import Image
 
-from luminance_probe.config import parse_config
-from luminance_probe.luminance import luminance_rgb
+from lumina_probe.config import parse_config
+from lumina_probe.luminance import luminance_rgb
 
 
 def _img(pixel) -> Image.Image:

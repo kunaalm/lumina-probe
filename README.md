@@ -30,7 +30,7 @@ already own — real light measured from the pixels, not a weather forecast.
 ```bash
 cp config/example.yaml config/config.yaml   # edit it
 docker run --rm -v $(pwd)/config/config.yaml:/app/config.yaml \
-  ghcr.io/kunaalm/luminance-probe:latest
+  ghcr.io/kunaalm/lumina-probe:latest
 ```
 
 ## Config reference
@@ -68,7 +68,7 @@ The image ships **no secrets**. Broker credentials are read from
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"
 pytest
-python -m luminance_probe --config config/example.yaml --once
+python -m lumina_probe --config config/example.yaml --once
 ```
 
 ## License

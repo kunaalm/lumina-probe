@@ -1,10 +1,14 @@
 services:
   luminance-probe:
-    image: ghcr.io/kunaalm/luminance-probe:latest
-    container_name: luminance-probe
+    image: ghcr.io/kunaalm/lumina-probe:latest
+    container_name: lumina-probe
     restart: unless-stopped
     volumes:
+      # Your real config (copy config/example.yaml -> config/config.yaml first)
       - ./config/config.yaml:/app/config.yaml:ro
     environment:
-      - MQTT_PASSWORD=${MQTT_PASSWORD:-}
-    network_mode: host   # simplest for reaching brokers/cameras on arbitrary LAN IPs
+      # Broker password; keep secrets out of config.yaml if you prefer
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-}
+    # host networking is simplest for reaching brokers/cameras on arbitrary
+    # LAN IPs; remove if you'd rather use a bridge + exposed ports
+    network_mode: host

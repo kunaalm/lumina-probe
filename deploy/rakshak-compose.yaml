@@ -1,0 +1,14 @@
+services:
+  luminance-probe:
+    container_name: lumina-probe
+    restart: unless-stopped
+    image: ghcr.io/kunaalm/lumina-probe:latest
+    # Host networking: reach Frigate (this host, :5001) and the MQTT broker
+    # (192.168.20.12:1883) without bridge/NAT gymnastics.
+    network_mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/app/config:ro
+    environment:
+      # Broker auth; can live here or in config.yaml
+      MQTT_PASSWORD: "mqtt"

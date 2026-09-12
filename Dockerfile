@@ -15,5 +15,5 @@ RUN pip install --no-cache-dir .
 RUN useradd --create-home --uid 1000 probe
 USER probe
 
-ENTRYPOINT ["luminance-probe"]
+ENTRYPOINT ["lumina-probe"]
 CMD ["--config", "/app/config.yaml"]
