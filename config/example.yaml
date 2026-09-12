@@ -1,20 +1,21 @@
 # luminance-probe configuration — copy to config.yaml and edit.
-# This file is intentionally generic: point it at any HTTP image source.
-# No values here are required to match this repo's author's homelab.
+# GENERIC: every value here is a placeholder for you to fill in.
+# The real config.yaml is gitignored, so your addresses/credentials never
+# get published with this repo.
 
 poll:
   interval_seconds: 300      # how often to poll and publish
 
 # Each source is an HTTP GET that returns a JPEG/PNG frame.
+# Example: Frigate exposes per-camera snapshots at
+#   http://<frigate-host>:<port>/api/<camera_name>/latest.jpg
+# Any URL that returns an image works.
 sources:
-  - name: front_left
-    url: "http://192.168.20.20:5001/api/cam_frigate_front_left/latest.jpg"
-  - name: front_porch
-    url: "http://192.168.20.20:5001/api/cam_frigate_front_porch/latest.jpg"
-  - name: front_right
-    url: "http://192.168.20.20:5001/api/cam_frigate_front_right/latest.jpg"
-  - name: doorbell
-    url: "http://192.168.20.20:5001/api/cam_frigate_doorbell/latest.jpg"
+  - name: camera_a
+    url: "http://<host>/api/<camera_a>/latest.jpg"
+  - name: camera_b
+    url: "http://<host>/api/<camera_b>/latest.jpg"
+  # ... add as many as you like
 
 # How to combine per-source luminance into one reported value.
 #   per_source -> publish one sensor per source, each with its own value
@@ -24,10 +25,10 @@ sources:
 aggregate: mean
 
 mqtt:
-  host: 192.168.20.12
+  host: "<mqtt-broker-host>"
   port: 1883
-  username: ""              # or unset
-  password: ""              # or set MQTT_PASSWORD env instead
+  username: ""              # broker user, or unset if none
+  password: ""              # or set MQTT_PASSWORD env instead (recommended)
   topic: "homeassistant"    # MQTT discovery base topic
 
 sensor:
