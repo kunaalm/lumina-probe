@@ -8,7 +8,10 @@ services:
     network_mode: host
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./config:/app/config:ro
+      # Mount the config FILE at the path the image expects (default --config /app/config.yaml).
+      # PITFALL: mounting the ./config DIRECTORY (./config:/app/config) leaves the file
+      # at /app/config/config.yaml, which the entrypoint never reads -> exit 2 crash-loop.
+      - ./config/config.yaml:/app/config.yaml:ro
     environment:
       # Broker auth; can live here or in config.yaml
       MQTT_PASSWORD: "mqtt"
